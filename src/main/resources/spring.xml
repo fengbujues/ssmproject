@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--加载db.properties-->
+    <bean class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer" id="configurer">
+        <property name="locations">
+            <array>
+                <value>classpath:db.properties</value>
+            </array>
+        </property>
+    </bean>
+    <!--配置数据库信息-->
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
+        <property name="driverClassName" value="${driver}"></property>
+        <property name="url" value="${url}"></property>
+        <property name="username" value="${username}"></property>
+        <property name="password" value="${password}"></property>
+        <property name="maxActive" value="500"></property>
+        <property name="maxIdle" value="1000"></property>
+    </bean>
+
+    <!--在SpringIOC容器中产生SqlSessionFactory对象-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="SqlSessionFactory">
+        <property name="dataSource" ref="dataSource"></property>
+        <!--<property name="configLocation" value="classpath:conf.xml"></property>-->
+        <!--将mapper配置文件的位置告诉sqlSessionFactory 注意这里如果是SSM项目要加classpath-->
+        <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+    </bean>
+
+    <!--第一种方式，自己配dao的实现类-->
+    <!--<bean class="org.study.daoimpl.LinkmanDaoImpl" id="linkmanDao">-->
+        <!--&lt;!&ndash;把IOC容器中的sqlSessionFactory交给LinkmanDaoImpl去生成mapper&ndash;&gt;-->
+        <!--<property name="sqlSessionFactory" ref="SqlSessionFactory"></property>-->
+    <!--</bean>-->
+
+    <!--第二种方式不用自己去配linkmanDao-->
+    <!--<bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="linkmanDao">-->
+        <!--<property value="org.study.dao.LinkmanDao" name="mapperInterface"></property>-->
+        <!--<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>-->
+    <!--</bean>-->
+
+    <!--第三种方式批量生成mapper，mapper对象名首字母小写默认id为类名-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer" id="mapperScannerConfigurer">
+        <property name="basePackage" value="org.study.dao"></property>
+        <property name="sqlSessionFactoryBeanName" value="SqlSessionFactory"></property>
+    </bean>
+
+    <!--配置service 依赖注入linkmanDao-->
+    <bean class="org.study.serviceimpl.LinkmanServiceImpl" id="linkmanService">
+        <property name="linkmanDao" ref="linkmanDao"></property>
+    </bean>
+
+
+
+
+</beans>

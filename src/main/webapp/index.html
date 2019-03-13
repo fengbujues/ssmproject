@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script src="js/jquery-3.3.1.js">
+</script>
+<script>
+    $(document).ready(function () {
+        $("[type='submit']").click(function () {
+            var username = $("[name='username']").val()
+            var psw = $("[name='psw']").val()
+            $.post(
+                "/login.form",
+                {"username":username,"psw":psw},
+                function(reuslt){
+                    alert(reuslt)
+                }
+            )
+        })
+    })
+</script>
+<body>
+<form accept-charset="UTF-8">
+    Username: <input type="text" name="username"> <br>
+    Password: <input type="password" name="psw"> <br>
+    <input type="submit" value="登陆"> <br>
+</form>
+
+<input type="text" name="" id="mobile">
+<button>注册</button>
+</body>
+<script>
+    $("button").click(function () {
+        var mobile = $("#mobile").val()
+        $.getJSON(
+            "/testAjax.form",
+            {"mobile":mobile},
+            function (result) {
+                if(result.message=="true"){
+                    alert("注册成功")
+                }else{
+                    alert("该号码已存在")
+                }
+            }
+        )
+    })
+</script>
+</html>

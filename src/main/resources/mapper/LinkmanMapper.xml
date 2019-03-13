@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mpper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.study.dao.LinkmanDao">
+    <select id="queryLinkmanById" resultType="org.study.entity.Linkman" parameterType="int">
+        select * from linkman where id = #{id}
+    </select>
+
+    <insert id="AddLinkman" parameterType="org.study.entity.Linkman">
+        insert into linkman values (#{id},#{name},#{age},#{tel},#{address})
+    </insert>
+
+    <select id="queryAllLinkman" resultType="org.study.entity.Linkman">
+        select * from linkman
+    </select>
+
+    <delete id="deleteLinkmanByid" parameterType="int">
+        delete from linkman where id=#{id}
+    </delete>
+
+    <select id="queryLinkmanbyname" parameterType="string" resultType="org.study.entity.Linkman">
+        select * from linkman where name = #{name}
+    </select>
+
+    <!--<select id="queryLinkmanIsExit" parameterType="int">-->
+        <!--select * from linkman where id = #{id}-->
+    <!--</select>-->
+
+</mapper>
