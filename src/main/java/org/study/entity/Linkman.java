@@ -18,6 +18,13 @@ public class Linkman {
                 '}';
     }
 
+    public Linkman(String name, int age, String tel, String address) {
+        this.name = name;
+        this.age = age;
+        this.tel = tel;
+        this.address = address;
+    }
+
     public int getId() {
         return id;
     }

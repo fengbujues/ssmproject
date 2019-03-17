@@ -1,53 +1,138 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Bootstrap 实例</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/popper.js/1.12.5/umd/popper.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
 </head>
-<script src="js/jquery-3.3.1.js">
-</script>
 <script>
     $(document).ready(function () {
-        $("[type='submit']").click(function () {
+        $("#login").click(function () {
             var username = $("[name='username']").val()
             var psw = $("[name='psw']").val()
             $.post(
-                "/login.form",
+                "/user/login.form",
                 {"username":username,"psw":psw},
-                function(reuslt){
-                    alert(reuslt)
+                function (result) {
+                    if(result=="登陆成功!"){
+                        window.location.href = "/views/success.jsp";
+                    }else{
+                        alert(result)
+                    }
+
                 }
             )
         })
+        //判断账户是否存在
+        $("[name='username']").blur(function () {
+            var username = $(this).val()
+            // alert(username)
+            $.post(
+                "/user/testusername.form",
+                {"username":username},
+                function (result) {
+                    if(result=="false"){
+                        $(".user").text("该账户不存在!")
+                        $(".user").css("color","red");
+                    }else{
+                        $(".user").text("用户名正确!")
+                        $(".user").css("color","green");
+                    }
+                }
+            )
+        })
+
     })
 </script>
 <body>
-<form accept-charset="UTF-8">
-    Username: <input type="text" name="username"> <br>
-    Password: <input type="password" name="psw"> <br>
-    <input type="submit" value="登陆"> <br>
+<h2 class="text-center">用户登陆</h2>
+<hr>
+<form accept-charset="UTF-8" class="text-center">
+    <div class="custom-control-inline">
+        <label class="mt-2">Username: </label>
+        <input type="text" name="username" class="form-control">
+    </div>
+    <br>
+    <span class="user"></span>
+    <br>
+    <br>
+    <div class="custom-control-inline">
+        <label class="mt-2">Password:</label>
+        <input type="password" name="psw" class="form-control">
+    </div>
+    <br>
+    <br>
+    <input type="button" value="登陆" class="btn btn-primary" id="login"> <br>
 </form>
 
-<input type="text" name="" id="mobile">
-<button>注册</button>
+<!--<%&#45;&#45;写一个简单的模态框&#45;&#45;%>-->
+<!--<div class="modal fade" id="your">-->
+    <!--<div class="modal-dialog">-->
+        <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+                <!--<h3>添加</h3>-->
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+<!--</div>-->
+
+<!--<button class="btn btn-primary" data-toggle="modal" data-target="#your">打开模态框</button>-->
+
+<!--<div class="container">-->
+    <!--<h2>模态框实例</h2>-->
+    <!--&lt;!&ndash; 按钮：用于打开模态框 &ndash;&gt;-->
+    <!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">-->
+        <!--打开模态框-->
+    <!--</button>-->
+
+    <!--&lt;!&ndash; 模态框 &ndash;&gt;-->
+    <!--<div class="modal fade" id="myModal">-->
+        <!--<div class="modal-dialog">-->
+            <!--<div class="modal-content">-->
+
+                <!--&lt;!&ndash; 模态框头部 &ndash;&gt;-->
+                <!--<div class="modal-header">-->
+                    <!--<h4 class="modal-title">模态框头部</h4>-->
+                    <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash; 模态框主体 &ndash;&gt;-->
+                <!--<div class="modal-body">-->
+                    <!--模态框内容..-->
+                <!--</div>-->
+
+                <!--&lt;!&ndash; 模态框底部 &ndash;&gt;-->
+                <!--<div class="modal-footer">-->
+                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</div>-->
+    <!--</div>-->
+
+<!--</div>-->
+
+<!--<input type="text" name="" id="mobile">-->
+<!--<button>注册</button>-->
 </body>
 <script>
-    $("button").click(function () {
-        var mobile = $("#mobile").val()
-        $.getJSON(
-            "/testAjax.form",
-            {"mobile":mobile},
-            function (result) {
-                if(result.message=="true"){
-                    alert("注册成功")
-                }else{
-                    alert("该号码已存在")
-                }
-            }
-        )
-    })
+    // $("button").click(function () {
+    //     var mobile = $("#mobile").val()
+    //     $.getJSON(
+    //         "/testAjax.form",
+    //         {"mobile":mobile},
+    //         function (result) {
+    //             if(result.message=="true"){
+    //                 alert("注册成功")
+    //             }else{
+    //                 alert("该号码已存在")
+    //             }
+    //         }
+    //     )
+    // })
 </script>
 </html>

@@ -12,4 +12,6 @@ public interface LinkmanDao {
 //    public Boolean queryLinkmanIsExit(int id);
     //通过name查询联系人 然后在service里面判断name和tel是否正确
     public Linkman queryLinkmanbyname(String name);
+    //分页
+    public List<Linkman> limitQueryByPage(int page);
 }

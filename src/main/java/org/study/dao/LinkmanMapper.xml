@@ -8,7 +8,7 @@
     </select>
 
     <insert id="AddLinkman" parameterType="org.study.entity.Linkman">
-        insert into linkman values (#{id},#{name},#{age},#{tel},#{address})
+        insert into linkman(name,age,tel,address) values (#{name},#{age},#{tel},#{address})
     </insert>
 
     <select id="queryAllLinkman" resultType="org.study.entity.Linkman">
@@ -21,6 +21,11 @@
 
     <select id="queryLinkmanbyname" parameterType="string" resultType="org.study.entity.Linkman">
         select * from linkman where name = #{name}
+    </select>
+
+    <!--page 为数据库开始行数 如page=4 则从第五行开始-->
+    <select id="limitQueryByPage" parameterType="int" resultType="org.study.entity.Linkman">
+        select * from linkman limit #{page},3
     </select>
 
     <!--<select id="queryLinkmanIsExit" parameterType="int">-->

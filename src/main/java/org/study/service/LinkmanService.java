@@ -10,4 +10,8 @@ public interface LinkmanService {
     public List<Linkman> queryAllLinkman();
     public Boolean deleteLinkmanByid(int id);
     public boolean login(String username,String psw);
+    //根据name 查询 联系人
+    public Linkman queryLinkmanbyname(String name);
+    //分页查询
+    public List<Linkman> limitQueryByPage(int page);
 }

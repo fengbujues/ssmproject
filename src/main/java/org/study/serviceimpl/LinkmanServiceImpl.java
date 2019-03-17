@@ -56,6 +56,27 @@ public class LinkmanServiceImpl implements LinkmanService {
         }
         return false;
     }
+    public Linkman queryLinkmanbyname(String name){
+        Linkman linkman = linkmanDao.queryLinkmanbyname(name);
+        return linkman;
+    }
+
+    //分页查询 这里的page应该是第几页 需要进行转换 默认3条数据为一页
+
+    /**
+     * 0 1
+     * 3 2
+     * 6 3
+     * (当前页-1)*3
+     * @param page
+     * @return
+     */
+    @Override
+    public List<Linkman> limitQueryByPage(int page) {
+        page = (page-1)*3;
+        List<Linkman> list = linkmanDao.limitQueryByPage(page);
+        return list;
+    }
 
 
 }
