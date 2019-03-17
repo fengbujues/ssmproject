@@ -249,7 +249,6 @@ $("#addLinkman").click(function () {
     }
     //编辑用户的方法
     function Edit(json) {
-        edituser = json
         // alert(json)
         console.log(json.name)
         // $("#editLinkman").parent()
