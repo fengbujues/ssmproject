@@ -28,6 +28,11 @@
         select * from linkman limit #{page},3
     </select>
 
+    <!--编辑联系人-->
+    <update id="updateLinkman" parameterType="org.study.entity.Linkman">
+        update linkman set name=#{name},age=#{age},tel=#{tel},address=#{address} where id=#{id}
+    </update>
+
     <!--<select id="queryLinkmanIsExit" parameterType="int">-->
         <!--select * from linkman where id = #{id}-->
     <!--</select>-->

@@ -141,6 +141,16 @@ public class LinkmanQueryController {
         return linkmen.size();
     }
 
+    /**
+     * 编辑联系人
+     */
+    @RequestMapping("updateLinkman")
+    public String updateLinkman(Linkman linkman){
+        System.out.println(linkman);
+        service.updateLinkman(linkman);
+        return "success";
+    }
+
     public LinkmanService getService() {
         return service;
     }

@@ -78,5 +78,10 @@ public class LinkmanServiceImpl implements LinkmanService {
         return list;
     }
 
+    @Override
+    public void updateLinkman(Linkman linkman) {
+        linkmanDao.updateLinkman(linkman);
+    }
+
 
 }

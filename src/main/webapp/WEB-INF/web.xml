@@ -44,6 +44,7 @@
     <url-pattern>*.form</url-pattern>
   </servlet-mapping>
 
+  <!--乱码专用，编码过滤器-->
   <filter>
     <filter-name>characterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>

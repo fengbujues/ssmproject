@@ -37,14 +37,20 @@
                 "/user/limitquery.form",
                 {"page":page},
                 function (result) {
-                    $("table").empty()
+                    // $("table").empty()
+                    $("tr:not(:first)").remove()
                     for (var i = 0; i < result.length; i++) {
                         $("table").append("<tr><td>"+result[i].id+"</td><td>"+result[i].name+"</td><td>"+result[i].age+"</td><td>"+result[i].tel+"</td>" +
                             "<td>"+result[i].address+"</td><td><a href='#' data-toggle=\"modal\" data-target=\"#deletemodal\" onclick='Delete("+result[i].id+")'><i class=\"fa fa-trash\" aria-hidden=\"true\"></i></a></td>" +
-                            "<td><a href='#' data-toggle=\"modal\" data-target=\"#editmodal\" onclick='Edit("+result[i]+")'><i class=\"fa fa-edit\" aria-hidden=\"true\"></i></a></td></tr>")
+                            "<td><a href='#' data-toggle=\"modal\" data-target=\"#editmodal\" onclick='Edit("+JSON.stringify(result[i])+")'><i class=\"fa fa-edit\" aria-hidden=\"true\"></i></a></td></tr>")
                     }
                 }
             )
+        }
+        //页码变化逻辑
+        //1 2 3 4 5
+        function PageChange(){
+            
         }
         //加载页面后查询
         Post()
@@ -112,9 +118,40 @@
 </nav>
 <span class="h2 text-center">登陆成功</span>
 <div class="user text-success"></div>
+
+<%--表格--%>
 <div class="container">
     <table class="table table-bordered table-striped table-hover">
+        <thead class="table-dark">
+        <tr>
+            <th>编号</th>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>联系方式</th>
+            <th>住址</th>
+            <th colspan="2" class="text-center">操作</th>
+        </tr>
+        </thead>
     </table>
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">首页</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+                <a class="page-link" href="#" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+            <li class="page-item"><a class="page-link" href="#">尾页</a></li>
+        </ul>
+    </nav>
     <button class="btn btn-sm" id="first">首页</button>
     <button class="btn btn-sm" id="last">上一页</button>
     <button class="btn btn-sm" id="next">下一页</button>
@@ -194,14 +231,14 @@
                 <div class="modal-body">
                     <div class="container">
                         <label class="">名称:</label>
-                        <input type="text" class="form-control name" name="name"/>
+                        <input type="text" class="form-control name" name="name" id="name"/>
                         <label>年龄:</label>
-                        <input type="text" class="form-control age" name="age"/>
+                        <input type="text" class="form-control age" name="age" id="age"/>
                         <label>电话号码:</label>
-                        <input type="text" class="form-control tel" name="tel"/>
+                        <input type="text" class="form-control tel" name="tel" id="tel"/>
                         <label>家庭住址:</label>
-                        <input type="text" class="form-control address" name="address"/>
-                        <input type="submit" class="btn btn-primary mt-3" id="editLinkman" value="编辑">
+                        <input type="text" class="form-control address" name="address" id="address"/>
+                        <input type="submit" class="btn btn-primary mt-3" id="editLinkman" data-dismiss="modal" value="编辑">
                     </div>
                 </div>
                 <%--<div class="modal-footer container">--%>
@@ -249,13 +286,37 @@ $("#addLinkman").click(function () {
     }
     //编辑用户的方法
     function Edit(json) {
-        // alert(json)
-        console.log(json.name)
+        // alert(json.name)
+        // console.log(json.name)
         // $("#editLinkman").parent()
-        var name = $("[name='name']").val(json.name)
-        var age = $("[name='age']").val(json.age)
-        var tel = $("[name='tel']").val(json.tel)
-        var address = $("[name='address']").val(json.address)
+        if(json!=null){
+            $("[name='name']").val(json.name)
+            $("[name='age']").val(json.age)
+            $("[name='tel']").val(json.tel)
+            $("[name='address']").val(json.address)
+            var name = $("[name='name']").val()
+            var age = $("[name='age']").val()
+            var tel = $("[name='tel']").val()
+            var address = $("[name='address']").val()
+            $("input").blur(function () {
+                name = $("#name").val()
+                age = $("#age").val()
+                tel = $("#tel").val()
+                address = $("#address").val()
+                // alert($(this).val())
+                // console.log(age)
+            })
+            $("#editLinkman").click(function () {
+                // console.log("点击："+age)
+                $.post(
+                    "/user/updateLinkman.form",
+                    {"id":json.id,"name":name,"age":age,"tel":tel,"address":address},
+                    function (reslut) {
+                        $("body").html(reslut)
+                    }
+                )
+            })
+        }
     }
 </script>
 </html>

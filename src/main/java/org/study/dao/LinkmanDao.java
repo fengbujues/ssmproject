@@ -14,4 +14,6 @@ public interface LinkmanDao {
     public Linkman queryLinkmanbyname(String name);
     //分页
     public List<Linkman> limitQueryByPage(int page);
+//    编辑
+    public void updateLinkman(Linkman linkman);
 }
